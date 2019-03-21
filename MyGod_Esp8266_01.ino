@@ -18,10 +18,8 @@ const char* mqttServer = "69.171.79.169";
 const int mqttPort = 1883;
 const char* mqttUserName = "";
 const char* mqttPassword = "";
-const char* lightTopic = "weather";
-const char* willTopic = "weather";
-const char* onlineTopic = "weather";
-const char* clientId = "123456";
+const char* lightTopic = "weather/000001";
+const char* clientId = "0000001";
 const char* weatherApi = "http://api.map.baidu.com/telematics/v3/weather?location=%E5%8C%97%E4%BA%AC&output=json&ak=8UI6PHtek99nSfQdnoC0Pawf";
 
 WiFiClient wifiClient;
@@ -119,9 +117,9 @@ void reconnect() {
   // Loop until we're reconnected
   while (!pubClient.connected()) {
     Serial.print("Attempting MQTT connection...");
-    if (pubClient.connect(clientId, mqttUserName, mqttPassword, willTopic, 1, 0, clientId)) {
+    if (pubClient.connect(clientId, mqttUserName, mqttPassword, lightTopic, 1, 0, clientId)) {
       Serial.println("connected");
-      pubClient.publish(onlineTopic, clientId);
+      pubClient.publish(lightTopic, clientId);
       pubClient.subscribe(lightTopic, 1);
     } else {
       Serial.print("failed, rc=");
